@@ -1,4 +1,5 @@
 # Food Best-Before Tracker Prototype
+Example data is included in **foods.txt** for demonstration purposes.
 
 ## Overview
 
