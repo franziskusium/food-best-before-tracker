@@ -36,6 +36,7 @@ python main.py
 
 4. Enter the current date when prompted.
 5. Follow the instructions on the screen.
+   
 For Mac users optional:
 1. Download the project files.
 2. Right-click `run.command`.
