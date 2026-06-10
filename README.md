@@ -33,6 +33,7 @@ For all users:
 
 ```bash
 python main.py
+For mac users: python3 main.py
 ```
 
 4. Enter the current date when prompted.
