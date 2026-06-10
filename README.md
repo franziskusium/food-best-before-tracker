@@ -24,8 +24,8 @@ The program stores food items in a text file and allows users to check which foo
 * Loops
 * Datetime module
 
-## How to Run
-
+## How to Run 
+For all users:
 1. Download the project files.
 2. Open a terminal in the project folder.
 3. Run:
@@ -36,6 +36,11 @@ python main.py
 
 4. Enter the current date when prompted.
 5. Follow the instructions on the screen.
+For Mac users optional:
+1. Download the project files.
+2. Right-click `run.command`.
+3. Select "Open".
+4. Click "Open" when macOS asks for confirmation.
 
 ## File Format
 
