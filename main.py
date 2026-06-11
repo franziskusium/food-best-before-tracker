@@ -23,6 +23,7 @@ def load_foods_from_file(filepath):
                     "%Y-%m-%d"
                 ).date()
 
+                
                 foods.append([name, expiry_date])
 
     return foods
@@ -54,28 +55,39 @@ def show_foods(foods, today):
         print("None")
 
 
-def add_food(foods):
+def add_food(foods, today):
     answer = input("\nDo you want to add food? (yes/no): ")
 
     while answer.lower() == "yes":
-
         name = input("Food name: ")
 
-        date_string = input(
-            "Best-before date (YYYY-MM-DD): "
-        )
+        while True:
+            date_string = input(
+                "Best-before date (YYYY-MM-DD): "
+            )
 
-        expiry_date = datetime.strptime(
-            date_string,
-            "%Y-%m-%d"
-        ).date()
+            try:
+                expiry_date = datetime.strptime(
+                    date_string,
+                    "%Y-%m-%d"
+                ).date()
+                break
+
+            except ValueError:
+                print(
+                    "Wrong format. :( Try YYYY-MM-DD."
+                )
+
+        if expiry_date < today:
+            print(
+                "Attention: expired food. Think before you eat!"
+            )
 
         foods.append([name, expiry_date])
 
         answer = input(
-            "\nAdd another food? (yes/no): "
+            "\nDo you want to add another food? (yes/no): "
         )
-
 
 def remove_expired_foods(foods, today):
     updated_foods = []
@@ -94,6 +106,18 @@ def save_foods_to_file(filepath, foods):
             line = f"{food[0]},{food[1]}\n"
             print("Writing:", line)
             file_writer.write(line)
+def show_foods_to_remove(foods, today):
+    print("\nFoods that will be removed:")
+
+    found = False
+
+    for food in foods:
+        if food[1] < today:
+            print(f"- {food[0]} ({food[1]})")
+            found = True
+
+    if not found:
+        print("None")
 
 def main():
     print("Saving file here:", os.path.abspath(FILE_PATH))
@@ -101,15 +125,51 @@ def main():
     foods = load_foods_from_file(FILE_PATH)
     
 
-    today_string = input("What date is it? (YYYY-MM-DD): ")
-    today = datetime.strptime(today_string, "%Y-%m-%d").date()
+    while True:
+        today_string = input(
+            "What date is it? (YYYY-MM-DD): "
+        )
 
-    show_foods(foods, today)
-    add_food(foods)
+        try:
+            today = datetime.strptime(
+                today_string,
+                "%Y-%m-%d"
+            ).date()
+        except ValueError:
+            print("Wrong format. :( Try YYYY-MM-DD.")
+            continue
 
-    print("Foods before saving:", foods)
+        confirm = input(
+            f"You entered {today_string}. Press Enter to confirm or 'n' to change: "
+        ).strip().lower()
 
-    foods = remove_expired_foods(foods, today)
+        if confirm == "":
+            break
+
+        elif confirm == "n":
+            continue
+
+        else:
+            print("You had exactly two options! Enter or 'n'! Try again.")
+            continue
+        
+    show_foods(foods, today)    
+    add_food(foods,today)
+
+    print("\nFoods before saving:")
+
+    for food in foods: 
+        print(f"- {food[0]} ({food[1]})")
+    
+    show_foods_to_remove(foods, today)
+
+    confirm = input(
+    "\nPress Enter to remove expired foods or type 'n' to cancel: "
+)   .strip().lower()
+
+    if confirm != "n":
+        foods = remove_expired_foods(foods, today)
+    
 
     save_foods_to_file(FILE_PATH, foods)
 
@@ -120,6 +180,7 @@ def main():
 
         print("\nContents of foods.txt:")
         print(file.read())
+    
 
 
 if __name__ == "__main__":
