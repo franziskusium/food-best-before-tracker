@@ -1,4 +1,5 @@
 # Food Best-Before Tracker Prototype
+Example data is included in **foods.txt** for demonstration purposes.
 
 ## Overview
 
@@ -32,6 +33,7 @@ For all users:
 
 ```bash
 python main.py
+For mac users: python3 main.py
 ```
 
 4. Enter the current date when prompted.
